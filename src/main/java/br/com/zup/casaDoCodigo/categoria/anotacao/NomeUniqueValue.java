@@ -10,6 +10,13 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Anotacao para utilizar na validacao do nome da categoria,
+ * que deve ser unico.
+ *
+ * @author Matheus Ferro
+ * @since 1.0
+ */
 @Documented
 @Constraint(validatedBy = {NomeUniqueValueValidator.class })
 @Target({FIELD, PARAMETER})

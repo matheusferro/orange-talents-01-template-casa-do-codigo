@@ -9,6 +9,13 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Anotacao para utilizar na validacao do Email do Autor,
+ * que deve ser unico.
+ *
+ * @author Matheus Ferro
+ * @since 1.0
+ */
 @Documented
 @Constraint(validatedBy = {EmailUniqueValueValidator.class })
 @Target({ FIELD, PARAMETER})
