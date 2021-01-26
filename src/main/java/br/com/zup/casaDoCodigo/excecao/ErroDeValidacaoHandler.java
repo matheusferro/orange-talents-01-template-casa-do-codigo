@@ -1,8 +1,11 @@
 package br.com.zup.casaDoCodigo.excecao;
 
+
+import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
@@ -37,6 +39,12 @@ public class ErroDeValidacaoHandler {
         List<ObjectError> globalErrors = exception.getBindingResult().getGlobalErrors();
 
         return buildResponse(globalErrors, fieldErrors);
+    }
+
+    @ResponseStatus(code= HttpStatus.CONFLICT)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void handler(DataIntegrityViolationException exception){
+        //EXECOES RELACIONADAS COM CONSTRAINTS IRA RETORNAR 409 - CONFLITO
     }
 
     private ErroValidacaoGlobalDTO buildResponse(List<ObjectError> globalErrors, List<FieldError> fieldErrors){
