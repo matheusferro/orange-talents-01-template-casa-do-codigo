@@ -1,5 +1,6 @@
 package br.com.zup.casaDoCodigo.autor;
 
+import br.com.zup.casaDoCodigo.autor.anotacao.EmailUniqueValue;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -12,6 +13,7 @@ public class AutorForm {
 
     @Email
     @NotBlank
+    @EmailUniqueValue
     private String email;
 
     @NotBlank
