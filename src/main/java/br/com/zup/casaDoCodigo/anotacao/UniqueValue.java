@@ -28,7 +28,7 @@ public @interface UniqueValue {
 
     String fieldName();
 
-    String message() default "";
+    String message() default "{uniqueValue}";
 
     Class<?>[] groups() default { };
 
