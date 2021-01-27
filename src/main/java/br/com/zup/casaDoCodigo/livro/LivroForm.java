@@ -7,8 +7,10 @@ import br.com.zup.casaDoCodigo.categoria.Categoria;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,16 +18,14 @@ import java.time.LocalDate;
 public class LivroForm {
 
     @NotBlank
-    @NotNull
     @UniqueValue(domainClass = Livro.class, fieldName = "titulo")
     private String titulo;
 
     @NotBlank
-    @NotNull
     @Length(max=500)
     private String resumo;
 
-    @NotNull
+    @NotBlank
     @Column(columnDefinition="TEXT")
     private String sumario;
 
@@ -38,63 +38,57 @@ public class LivroForm {
     private Integer numPaginas;
 
     @NotBlank
-    @NotNull
     @UniqueValue(domainClass = Livro.class, fieldName = "isbn")
     private String isbn;
 
     @Future
-    @DateTimeFormat
-    @JsonFormat(pattern="dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataPublicacao;
 
+    /**
+     * Repensando, seria mais interessante pegar o Autor e Categoria
+     * por Id. Já que em um Front-end provavelmente estariamos usando
+     * combobox, e seria passado para a API o id selecionado
+     */
     @NotNull
-    @NotBlank
-    @ExistsValue(domainClass = Categoria.class, fieldName = "nome")
-    private String nomeCategoria;
+    @ExistsValue(domainClass = Autor.class, fieldName = "id")
+    private Long idAutor;
 
     @NotNull
-    @NotBlank
-    @Email
-    @ExistsValue(domainClass = Autor.class, fieldName = "email")
-    private String emailAutor;
+        @ExistsValue(domainClass = Categoria.class, fieldName = "id")
+    private Long idCategoria;
 
-    public String getTitulo() {
-        return titulo;
+    /**
+     * Utilizar o construtor para não encher a classe com getters e setters.
+     */
+    public LivroForm(@NotBlank String titulo, @NotBlank @Length(max = 500) String resumo, @NotBlank String sumario,
+                     @NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer numPaginas, @NotBlank String isbn,
+                     @NotNull Long idAutor, @NotNull Long idCategoria) {
+        this.titulo = titulo;
+        this.resumo = resumo;
+        this.sumario = sumario;
+        this.preco = preco;
+        this.numPaginas = numPaginas;
+        this.isbn = isbn;
+        this.idAutor = idAutor;
+        this.idCategoria = idCategoria;
     }
 
-    public String getResumo() {
-        return resumo;
+    /**
+     * Não achei outra solução para fazer o jackson desserializar.
+     * Vou seguir a solução do Alberto.
+     */
+    public void setDataPublicacao(LocalDate dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
     }
 
-    public String getSumario() {
-        return sumario;
-    }
+    public Livro converterToLivro(EntityManager entityManager) {
+        @NotNull Categoria categoria = entityManager.find(Categoria.class, idCategoria);
+        @NotNull Autor autor = entityManager.find(Autor.class, idAutor);
 
-    public BigDecimal getPreco() {
-        return preco;
-    }
+        Assert.state(categoria != null, "É necessário cadastrar o livro com uma categoria existente.");
+        Assert.state(autor != null, "É necessário cadastrar o livro com um autor existente.");
 
-    public Integer getNumPaginas() {
-        return numPaginas;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public LocalDate getDataPublicacao() {
-        return dataPublicacao;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public String getEmailAutor() {
-        return emailAutor;
-    }
-
-    public Livro converterToLivro(Categoria categoria, Autor autor) {
         return new Livro(titulo, resumo, sumario, preco, numPaginas, isbn, dataPublicacao, categoria, autor);
     }
 }

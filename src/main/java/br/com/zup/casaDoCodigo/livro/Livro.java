@@ -49,11 +49,11 @@ public class Livro {
     private LocalDate dataPublicacao;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Categoria categoria;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Autor autor;
 
     public Livro(@NotBlank @NotNull String titulo, @NotBlank @NotNull @Length(max = 500) String resumo, @NotNull String sumario, @NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer numPaginas, @NotBlank @NotNull String isbn, @Future LocalDate dataPublicacao, @NotNull Categoria categoria, @NotNull Autor autor) {
@@ -66,5 +66,21 @@ public class Livro {
         this.dataPublicacao = dataPublicacao;
         this.categoria = categoria;
         this.autor = autor;
+    }
+
+    @Override
+    public String toString() {
+        return "Livro{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", resumo='" + resumo + '\'' +
+                ", sumario='" + sumario + '\'' +
+                ", preco=" + preco +
+                ", numPaginas=" + numPaginas +
+                ", isbn='" + isbn + '\'' +
+                ", dataPublicacao=" + dataPublicacao +
+                ", categoria=" + categoria.getNome() +
+                ", autor=" + autor.getNome() +
+                '}';
     }
 }

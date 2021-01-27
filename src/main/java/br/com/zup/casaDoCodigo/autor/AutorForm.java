@@ -20,16 +20,16 @@ public class AutorForm {
     @Length(max=400)
     private String descricao;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getDescricao() {
-        return descricao;
+    /**
+     * Construtor para evitar getters e setters.
+     * @param nome
+     * @param email
+     * @param descricao (max = 400)
+     */
+    public AutorForm(@NotBlank String nome, @Email @NotBlank String email, @NotBlank @Length(max = 400) String descricao) {
+        this.nome = nome;
+        this.email = email;
+        this.descricao = descricao;
     }
 
     public Autor converterToAutor(){

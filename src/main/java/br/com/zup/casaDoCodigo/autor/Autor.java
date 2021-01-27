@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"},name = "UK_EMAIL")})
@@ -42,23 +43,31 @@ public class Autor {
         this.descricao = descricao;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", instante=" + instante +
+                '}';
     }
 
-    public String getDescricao() {
-        return descricao;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Autor autor = (Autor) o;
+        return id.equals(autor.id) && nome.equals(autor.nome) && email.equals(autor.email) && descricao.equals(autor.descricao) && instante.equals(autor.instante);
     }
 
-    public LocalDateTime getInstante() {
-        return instante;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, email, descricao, instante);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -19,22 +21,18 @@ import java.util.Optional;
 @RequestMapping("/livro")
 public class LivroController {
 
-    @Autowired
-    private CategoriaRepository categoriaRepository;
-
-    @Autowired
-    private AutorRepository autorRepository;
-
-    @Autowired
-    private LivroRepository livroRepository;
+    /**
+     * Após ver a solução do Alberto, decidi que  utilizar o EntityManager
+     * será uma melhor escolha.
+     */
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @PostMapping
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody @Valid LivroForm form){
-        Optional<Categoria> optCategoria = categoriaRepository.findByNome(form.getNomeCategoria());
-        Optional<Autor> optAutor = autorRepository.findByEmail(form.getEmailAutor());
-
-        livroRepository.save(form.converterToLivro(optCategoria.get(), optAutor.get()));
-        return ResponseEntity.ok().build();
+        Livro livro = form.converterToLivro(entityManager);
+        entityManager.persist(livro);
+        return ResponseEntity.ok().body(livro.toString());
     }
 }

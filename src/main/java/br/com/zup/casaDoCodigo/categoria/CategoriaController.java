@@ -20,7 +20,11 @@ public class CategoriaController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CategoriaForm form){
-        categoriaRepository.save(form.converterToCategoria());
-        return ResponseEntity.ok().build();
+        /**
+         * Retirando o metodo de converter para classe dominio de dentro do form, por ser classes bem simples.
+         */
+        Categoria categoria = new Categoria(form.getNome());
+        categoriaRepository.save(categoria);
+        return ResponseEntity.ok().body(categoria.toString());
     }
 }

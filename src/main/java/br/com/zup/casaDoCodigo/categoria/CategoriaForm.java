@@ -13,8 +13,4 @@ public class CategoriaForm {
     public String getNome() {
         return nome;
     }
-
-    public Categoria converterToCategoria() {
-        return new Categoria(nome);
-    }
 }
