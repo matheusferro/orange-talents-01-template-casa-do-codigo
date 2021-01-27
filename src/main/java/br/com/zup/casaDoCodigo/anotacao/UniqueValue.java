@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Anotacao para utilizar na validacao de unicidade de camos.
+ * Anotacao para utilizar na validacao de unicidade de campos.
  *
  * @param domainClass
  * @param fieldName

@@ -8,7 +8,14 @@ import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
-
+/**
+ * Validador de valores unicos cadastrado.
+ *
+ * @param domainClass
+ * @param fieldName
+ * @author Matheus Ferro
+ * @since 1.0
+ */
 public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
 
     @PersistenceContext
