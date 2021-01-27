@@ -1,7 +1,6 @@
 package br.com.zup.casaDoCodigo.categoria;
 
 import br.com.zup.casaDoCodigo.anotacao.UniqueValue;
-import br.com.zup.casaDoCodigo.categoria.anotacao.NomeUniqueValue;
 
 import javax.validation.constraints.NotBlank;
 
