@@ -14,10 +14,6 @@ public class CategoriaForm {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public Categoria converterToCategoria() {
         return new Categoria(nome);
     }
