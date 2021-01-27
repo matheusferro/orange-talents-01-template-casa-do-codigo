@@ -2,6 +2,7 @@ package br.com.zup.casaDoCodigo.categoria;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "nome", name = "UK_NOME")})
@@ -12,6 +13,7 @@ public class Categoria {
     private Long id;
 
     @NotBlank
+    @NotNull
     private String nome;
 
     @Deprecated

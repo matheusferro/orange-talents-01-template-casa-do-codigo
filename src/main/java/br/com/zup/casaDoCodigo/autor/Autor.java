@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,16 +17,20 @@ public class Autor {
     private Long id;
 
     @NotBlank
+    @NotNull
     private String nome;
 
     @Email
     @NotBlank
+    @NotNull
     private String email;
 
     @NotBlank
     @Length(max=400)
+    @NotNull
     private String descricao;
 
+    @NotNull
     private LocalDateTime instante = LocalDateTime.now();
 
     @Deprecated
