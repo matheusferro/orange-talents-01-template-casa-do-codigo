@@ -1,6 +1,8 @@
 package br.com.zup.casaDoCodigo.autor;
 
+import br.com.zup.casaDoCodigo.anotacao.UniqueValue;
 import br.com.zup.casaDoCodigo.autor.anotacao.EmailUniqueValue;
+import br.com.zup.casaDoCodigo.categoria.Categoria;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -13,7 +15,7 @@ public class AutorForm {
 
     @Email
     @NotBlank
-    @EmailUniqueValue
+    @UniqueValue(domainClass = Autor.class, fieldName = "email")
     private String email;
 
     @NotBlank
