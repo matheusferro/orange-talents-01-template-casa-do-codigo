@@ -1,5 +1,6 @@
 package br.com.zup.casaDoCodigo.categoria;
 
+import br.com.zup.casaDoCodigo.anotacao.UniqueValue;
 import br.com.zup.casaDoCodigo.categoria.anotacao.NomeUniqueValue;
 
 import javax.validation.constraints.NotBlank;
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 public class CategoriaForm {
 
     @NotBlank
-    @NomeUniqueValue
+    @UniqueValue(domainClass = Categoria.class, fieldName = "nome")
     private String nome;
 
     public String getNome() {
