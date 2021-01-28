@@ -4,6 +4,9 @@ import br.com.zup.casaDoCodigo.anotacao.UniqueValue;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Classe responsável por receber os dados.
+ */
 public class CategoriaForm {
 
     @NotBlank
