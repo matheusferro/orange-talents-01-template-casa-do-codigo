@@ -1,12 +1,10 @@
 package br.com.zup.casaDoCodigo.livro;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DetalhesLivroResponse {
 
-    //private Long id;
     private String titulo;
     private String resumo;
     private String sumario;
@@ -15,27 +13,25 @@ public class DetalhesLivroResponse {
     private String isbn;
     private String dataPublicacao;
 
-    private String nomeAutor;
-    private String descAutor;
+    private DetalhesAutorSiteResponse autor;
 
-    public DetalhesLivroResponse(String titulo,
-                                 String resumo,
-                                 String sumario,
-                                 BigDecimal preco,
-                                 Integer numPaginas,
-                                 String isbn,
-                                 LocalDate dataPublicacao,
-                                 String nomeAutor,
-                                 String descAutor) {
-        this.titulo = titulo;
-        this.resumo = resumo;
-        this.sumario = sumario;
-        this.preco = preco;
-        this.numPaginas = numPaginas;
-        this.isbn = isbn;
-        this.dataPublicacao = dataPublicacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        this.nomeAutor = nomeAutor;
-        this.descAutor = descAutor;
+    /**
+     * Após ver a resolução do Alberto, o código foi refatorado.
+     * Utiliza-se somente um parâmetro do tipo Livro,
+     * foi criado uma variavel do tipo DetalhesAutorSiteResponse
+     * onde é tratado os dados do autor.
+     */
+    public DetalhesLivroResponse(Livro livro) {
+        this.titulo = livro.getTitulo();
+        this.resumo = livro.getResumo();
+        this.sumario = livro.getSumario();
+        this.preco = livro.getPreco();
+        this.numPaginas = livro.getNumPaginas();
+        this.isbn = livro.getIsbn();
+        this.dataPublicacao = livro.getDataPublicacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        autor = new DetalhesAutorSiteResponse(livro.getAutor());
+
     }
 
     public String getTitulo() {
@@ -66,11 +62,7 @@ public class DetalhesLivroResponse {
         return dataPublicacao;
     }
 
-    public String getNomeAutor() {
-        return nomeAutor;
-    }
-
-    public String getDescAutor() {
-        return descAutor;
+    public DetalhesAutorSiteResponse getAutor() {
+        return autor;
     }
 }

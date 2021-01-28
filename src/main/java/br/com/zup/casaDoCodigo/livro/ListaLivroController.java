@@ -36,12 +36,20 @@ public class ListaLivroController {
         return ListaLivrosResponse.convertToLivroResponse(livrosCadastrados);
     }
 
+    /**
+     *  Após ver a resolução do Alberto decidi refatorar.
+     *  Ainda utilizando o repository, agora sem metodo com JPQL,
+     *  o construtor recebendo somente 1 parametro do tipo Livro,
+     *  adicionado uma classe para tratar os dados do Autor
+     *  e adicionado os getters necessarios.
+     */
     @GetMapping(path = "/livro/{id}")
     public ResponseEntity<DetalhesLivroResponse> detalhes(@PathVariable("id") Long id){
-        DetalhesLivroResponse detalhesLivro = livroRepository.detalhesPorId(id);
-        if(detalhesLivro == null){
+        Optional<Livro> livro = livroRepository.findById(id);
+        if(livro.isEmpty()){
             return ResponseEntity.notFound().build();
         }
+        DetalhesLivroResponse detalhesLivro = new DetalhesLivroResponse(livro.get());
         return ResponseEntity.ok(detalhesLivro);
     }
 }
