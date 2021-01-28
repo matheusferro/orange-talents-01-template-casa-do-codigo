@@ -56,6 +56,9 @@ public class Livro {
     @ManyToOne
     private Autor autor;
 
+    @Deprecated
+    public Livro(){}
+
     public Livro(@NotBlank @NotNull String titulo, @NotBlank @NotNull @Length(max = 500) String resumo, @NotNull String sumario, @NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer numPaginas, @NotBlank @NotNull String isbn, @Future LocalDate dataPublicacao, @NotNull Categoria categoria, @NotNull Autor autor) {
         this.titulo = titulo;
         this.resumo = resumo;
