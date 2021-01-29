@@ -31,20 +31,29 @@ public class ValidadorPaisEstado implements Validator {
         }
 
         CompraParcialRequest request = (CompraParcialRequest) target;
-
         /**
-         *  VALIDAÇÃO É FEITA COM UMA QUERY SÓ.
+         *  CORREÇÃO:
          *
-         *  CASO O PAIS NÃO TENHA ESTADO JÁ NOS RETORNARA NEHUM RESULTADO.
-         *  CASO O PAIS TENHA ESTADO E NÃO FOI O SELECIONADO TAMBÉM RETORNARÁ NENHUM RESULTADO.
+         *  PRIMEIRO É CONSULTADO SE EXISTE ESTADOS RELACIONADO COM O PAIS,
+         *  CASO POSSUA ESTADOS É VERIFICADO A RELAÇÃO ENTRE PAIS E ESTADO.
+         *
          */
         Query query = em.createQuery
-                ("SELECT 1 FROM Estado e RIGHT JOIN e.pais p WHERE e.id = p.id and p.id = :pIdPais AND e.id = :pIdEstado");
+                ("SELECT 1 FROM Estado e JOIN e.pais p WHERE e.pais.id = p.id and p.id = :pIdPais ");
         query.setParameter("pIdPais", request.getIdPais());
-        query.setParameter("pIdEstado", request.getIdEstado());
-        List<?> list = query.getResultList();
-        if(list.size() < 1){
-            errors.rejectValue("idEstado",null, "Selecione pais e estado corretamente.");
+
+        boolean paisPossuiEstados = query.getResultList().size() > 0;
+        if(paisPossuiEstados){
+            //verifica se o estado pertence ao pais
+            query = em.createQuery("SELECT 1 FROM Estado e WHERE e.pais.id = :pIdPais AND e.id = :pIdEstado ");
+            query.setParameter("pIdPais", request.getIdPais());
+            query.setParameter("pIdEstado", request.getIdEstado());
+            boolean estadoPertenceAoPais = query.getResultList().size() < 1;
+            if(estadoPertenceAoPais){
+                errors.rejectValue("idEstado",null, "Estado não pertence ao País.");
+            }
+        }else if(request.getIdEstado() != null){
+            errors.rejectValue("idEstado",null, "Não é possível cadastrar um estado para esse país.");
         }
 
     }
