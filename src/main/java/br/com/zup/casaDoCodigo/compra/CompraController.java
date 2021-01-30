@@ -1,11 +1,10 @@
 package br.com.zup.casaDoCodigo.compra;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -13,12 +12,12 @@ import javax.validation.Valid;
 @RequestMapping("/compra")
 public class CompraController {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private ValidadorPaisEstado validadorPaisEstado;
 
     @InitBinder
     public void init(WebDataBinder binder){
-        binder.addValidators(new ValidadorPaisEstado(entityManager));
+        binder.addValidators(validadorPaisEstado);
     }
 
     @PostMapping

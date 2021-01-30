@@ -15,10 +15,6 @@ public class ValidadorPaisEstado implements Validator {
     @PersistenceContext
     private EntityManager em;
 
-    public ValidadorPaisEstado(EntityManager entityManager) {
-        this.em = entityManager;
-    }
-
     @Override
     public boolean supports(Class<?> clazz) {
         return CompraParcialRequest.class.isAssignableFrom(clazz);
@@ -48,12 +44,12 @@ public class ValidadorPaisEstado implements Validator {
             query = em.createQuery("SELECT 1 FROM Estado e WHERE e.pais.id = :pIdPais AND e.id = :pIdEstado ");
             query.setParameter("pIdPais", request.getIdPais());
             query.setParameter("pIdEstado", request.getIdEstado());
-            boolean estadoPertenceAoPais = query.getResultList().size() < 1;
-            if(estadoPertenceAoPais){
+            boolean estadoNaoPertenceAoPais = query.getResultList().size() < 1;
+            if(estadoNaoPertenceAoPais){
                 errors.rejectValue("idEstado",null, "Estado não pertence ao País.");
             }
         }else if(request.getIdEstado() != null){
-            errors.rejectValue("idEstado",null, "Não é possível cadastrar um estado para esse país.");
+            errors.rejectValue("idEstado",null, "Esse país não possui estado.");
         }
 
     }
