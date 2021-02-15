@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.zup</groupId>
-	<artifactId>casaDoCodigo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>casaDoCodigoApp</artifactId>
+	<version>1</version>
 	<name>casaDoCodigo</name>
 	<description>Projeto proposto pela zup. Simular algumas acoes da casa do codigo.</description>
 	<properties>
