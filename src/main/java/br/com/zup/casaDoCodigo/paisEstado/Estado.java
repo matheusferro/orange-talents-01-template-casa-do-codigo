@@ -25,4 +25,12 @@ public class Estado {
         this.nome = nome;
         this.pais = pais;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
 }

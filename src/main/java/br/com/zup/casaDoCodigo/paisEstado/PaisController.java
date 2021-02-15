@@ -23,6 +23,6 @@ public class PaisController {
     public ResponseEntity<?> cadastro(@RequestBody @Valid PaisRequest request){
         Pais pais = new Pais(request.getNome());
         entityManager.persist(pais);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new PaisResponse(pais));
     }
 }

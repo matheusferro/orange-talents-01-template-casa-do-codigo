@@ -23,6 +23,6 @@ public class EstadoController {
     public ResponseEntity<?> cadastrar(@RequestBody @Valid EstadoRequest request){
        Estado estado = request.toModel(entityManager);
        entityManager.persist(estado);
-       return ResponseEntity.ok().build();
+       return ResponseEntity.ok().body(new EstadoResponse(estado));
     }
 }
